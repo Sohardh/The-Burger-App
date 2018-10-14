@@ -72,20 +72,17 @@ class BurgerBuilder extends Component {
 
 	continue = () =>{
 		//alert('Continue building Burger!');
-		const order= {
-			ingredients: this.state.ingredients,
-			price: this.state.Price,
-			customer: {
-				name: 'demi',
-				addredd: {
-					street: 'the royal street',
-					zipcode:'6255',
-					country: 'India'
-				}
+		const queryParams = [];
+			for(let i in this.state.ingredients) {
+				queryParams.push(encodeURIComponent(i) +'=' + encodeURIComponent(this.state.ingredients[i]) )
 			}
-		}
-		axios.post('/orders.json',order) 
-			.then(response=>console.log(response))
+			queryParams.push('price=' + this.state.Price);
+			const queryString = queryParams.join('&');
+			this.props.history.push({
+				pathname: '/checkout',
+				search: '?' + queryString
+				});
+		
 	}
 	render() {
 
@@ -97,12 +94,11 @@ class BurgerBuilder extends Component {
 
 	
 		let ordersummary=null;
-		let burger='yo'
+		let burger=" ";
 		if(this.state.ingredients) {
 			burger=(
 			<Aux>
 			<Burger ingredients={this.state.ingredients}/>
-
 			<BuildControls 
 			disabled={disabledInfo} 
 			ingredientRemoved={this.removeIngredHandler} 
