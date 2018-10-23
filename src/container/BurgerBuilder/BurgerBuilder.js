@@ -20,14 +20,12 @@ class BurgerBuilder extends Component {
 		purchasing: false
 	}
 	componentDidMount () {
-		axios.get('https://react-burger-app-dd058.firebaseio.com/orders/sni.json')
+		axios.get('https://react-burger-app-dd058.firebaseio.com/Ingredients.json')
 		.then(response => {
 			this.setState({ingredients:response.data});
-
 		})
 	}
 	updatePurchasableState (ingredients) {
-
 		const sum = Object.keys(ingredients).map(igKey => {
 			return ingredients[igKey]
 		}).reduce((sum, el) => {return sum+el;},0)
